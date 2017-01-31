@@ -14,7 +14,7 @@ N_t = Y_{t,0} + sum_{d=1}^{D} Y_{t,d}
 Y_{0,t} is known forall t
 If T is today, Y_{t,d} is unknown for all (t,d) such that t+d > T
 
-Package maintainer: Marcelo F C Gomes marfcg<at>gmail<dot>com
+Package maintainer: Marcelo F C Gomes marfcg [at] gmail [dot] com
 
 Contributors: Claudia T Codeço and Leo Bastos
 
