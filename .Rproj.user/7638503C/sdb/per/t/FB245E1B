@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "#' Function written by Oswaldo C.\n#' hosted at http://www.procc.fiocruz.br/~oswaldo/ocmisc.r\n#'\n#' @param x Date to be converted to epidemiological week. Can be of typy Date or character in the format 'YYYY-MM-DD'\n#' @param separa Character to separate YYYY and WW.\n#' @param retorna What should be return, if epidemiological year and week ('YW'), epi. year only ('Y') or epi. week only ('W').\n#'   Default: 'YW'.\n#'\n#' @author Oswaldo G. Cruz\n#' @export\nepisem <- function(x,separa='W',retorna='YW') {\n\n  # retorna='YW' retorna 'YYYYseparaWW'\n  # retorna='W' retorna 'WW'\n  # retorna='Y' retorna 'YYYY'\n  # semana epi 1 de 2000 02/01/2000\n  if (is.na(x) | as.character(x) == '') {return(NA)}\n\n  if (class(x)!= \"Date\") {\n\n    x <- as.Date(x)\n    #warning(\"Precisa ser do tipo Date - Convertendo de texto\")\n  }\n\n  ##  funcoes auxiliares - poderia usar a lubridate mas achei assim mais simples\n\n  year  <- function(dt) {as.numeric(format(dt,\"%Y\"))}  ## retorna ano\n  wday <- function(dt) {as.numeric(format(dt,\"%w\"))}   ## retorna dia sendo  0 = domingo a 6= sabado\n  passado <- function(dt,diff=1) {as.Date(paste(as.numeric(format(dt,\"%Y\"))-diff,format(dt,\"%m-%d\"),sep=\"-\"))} ## ano - x\n\n  ## Inicio\n\n  ano <- year(x) # extrai ano\n  dia1 <- as.Date(paste(ano,'01','01',sep='-')) # primeiro do ano\n\n  diasem <- wday(dia1)  #descobre o dia da semana do dia1\n\n  fwd <- ifelse (diasem <=3, dia1 - diasem , dia1 + (7 - diasem) ) #se for menor ou igua a 3 (quarta)\n  fwd <- as.Date(fwd,origin = '1970-01-01') # reformata em data pois ela perde a formatacao\n\n\n  ## caso a data seja menor que a da 1o semana do ano (fwd)\n  if (x < fwd) {\n\n    dia1 <- passado(dia1)  # ano -1\n    diasem <- wday(dia1)  #dia da semana\n    fwd <- ifelse (diasem <=3, dia1 - diasem , dia1 + (7 - diasem) )\n    fwd <- as.Date(fwd,origin = '1970-01-01')\n\n  }\n\n  diafim <- as.Date(paste(ano,'12','31',sep='-')) #Ultimo dia do ano\n  diasem <- wday(diafim)                          #dia semana do ultimo dia\n\n  ewd <- ifelse (diasem < 3, diafim - diasem - 1, diafim + 6 - diasem)\n  ewd <- as.Date(ewd,origin = '1970-01-01') # ultima semana epi do ano\n\n  if (x > ewd) fwd <- ewd + 1 #caso a data (x) seja maior ou igual a ultiam semaan do ano\n\n\n  epiweek <- floor(as.numeric(x - fwd) / 7 ) + 1 #numero de semanas e a diff da data e da primeira semana div por 7\n\n  if(epiweek==0) epiweek <- 1 ## gatilho se for 0 vira semana 1\n\n  epiyear <- year(fwd + 180) ## ano epidemiologico\n\n  if (retorna=='YW'){\n    sprintf(\"%4d%s%02d\",epiyear,separa,epiweek)  ## formata string com separador\n  } else if (retorna=='Y') {\n    sprintf(\"%04d\",epiyear)\n  } else {\n    sprintf(\"%02d\",epiweek)\n  }\n\n}\n",
+    "created" : 1485886022097.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3428685059",
+    "id" : "FB245E1B",
+    "lastKnownWriteTime" : 1485886295,
+    "last_content_update" : 1485886295463,
+    "path" : "~/codes/opportunity_estimator/leos.opportunity.estimator/R/episem.R",
+    "project_path" : "R/episem.R",
+    "properties" : {
+    },
+    "relative_order" : 6,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

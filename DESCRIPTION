@@ -1,0 +1,35 @@
+Package: leos.opportunity.estimator
+Type: Package
+Title: Notification Opportunity Estimator
+Version: 0.1.0
+Authors@R: c(person("Gomes", "Marcelo F. C.", email = "marfcg@gmail.com", role = c("aut", "cre")),
+            person("Bastos", "Leonardo", role = c("aut")),
+            person("Codeço", "Claudia T.", role = c("ctb")),
+            person("Cruz", "Oswaldo G.", role = c("ctb")))
+Maintainer: Marcelo F. C. Gomes <marfcg@gmail.com>
+Description: Method to generate estimates based on notification opportunity
+    profile.
+License: GPL (>=3)
+Encoding: UTF-8
+LazyData: true
+Depends:
+    stringi,
+    RColorBrewer,
+    scales,
+    INLA,
+    grDevices,
+    graphics,
+    stats,
+    utils
+Collate:
+    'post.sum.R'
+    'post.thresholds.R'
+    'generate.estimates.R'
+    'episem.R'
+    'lastepiweek.R'
+    'apply.leos.method.R'
+    'generate.columns.from.date.R'
+    'generate.columns.from.epiyearweek.R'
+    'opportunity.example.data-data.R'
+    'previous.epiyearweek.from.date.R'
+RoxygenNote: 5.0.1
