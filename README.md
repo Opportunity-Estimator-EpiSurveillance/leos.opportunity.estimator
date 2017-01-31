@@ -1,7 +1,7 @@
 # Notification Opportunity Estimator
 Method to generate estimates based on notification opportunity profile.
 
-Function \code{apply.leos.method} applies the following method for the estimates:
+Function apply.leos.method applies the following method for the estimates:
 Notification delay modelling
 by Leo Bastos
 
@@ -15,5 +15,7 @@ Y_{0,t} is known forall t
 If T is today, Y_{t,d} is unknown for all (t,d) such that t+d > T
 
 Package maintainer: Marcelo F C Gomes marfcg<at>gmail<dot>com
+
 Contributors: Claudia T Codeço and Leo Bastos
+
 License: GPL v3.0
