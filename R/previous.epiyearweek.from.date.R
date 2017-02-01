@@ -1,3 +1,5 @@
+#' @importFrom stringi stri_pad_left
+NULL
 #' @include episem.R lastepiweek.R
 NULL
 
@@ -19,9 +21,11 @@ NULL
 #' @export
 previous.epiyearweek.from.date <- function(day){
   today <- episem(day)
-  lyear <- as.integer(strsplit(today, 'W')[[1]][1])
-  today.week <- as.integer(strsplit(today, 'W')[[1]][2])
-  previous.week <- ifelse(today.week > 1, today.week-1, as.integer(lastepiweek(lyear-1)))
-  previous.epiyearweek <- paste0(lyear,'W',today.week)
+  today.epiyear <- as.integer(strsplit(today, 'W')[[1]][1])
+  today.epiweek <- as.integer(strsplit(today, 'W')[[1]][2])
+  previous.epiweek.week <- ifelse(today.epiweek > 1, today.epiweek-1, as.integer(lastepiweek(today.epiyear-1)))
+  previous.epiweek.year <- ifelse(previous.epiweek.week < today.epiweek, today.epiyear, today.epiyear-1)
+  previous.epiyearweek <- paste0(previous.epiweek.year,'W',stri_pad_left(previous.epiweek.week, 2, pad=0))
+
   return(previous.epiyearweek)
 }

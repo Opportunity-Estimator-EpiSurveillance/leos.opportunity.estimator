@@ -18,3 +18,10 @@ test_that('Create epiweek and year data from epiweekyear', {
   expect_equal(generate.columns.from.epiyearweek('2009W52')$epiyear, 2009)
 })
 
+test_that('Check episem operation', {
+  expect_equal(episem('2009-01-01'), '2008W53')
+})
+
+test_that('Check previous epiweek operation', {
+  expect_equal(previous.epiyearweek.from.date('2009-01-07'), '2008W53')
+})
