@@ -9,10 +9,11 @@ Authors@R: c(person("Gomes", "Marcelo F. C.", email = "marfcg@gmail.com", role =
 Maintainer: Marcelo F. C. Gomes <marfcg@gmail.com>
 Description: Method to generate estimates based on notification opportunity
     profile.
-License: GPL (>=3)
+License: GPL v3
 Encoding: UTF-8
 LazyData: true
 Depends:
+    R (>=3.0)
     stringi,
     RColorBrewer,
     scales,
