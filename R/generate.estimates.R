@@ -99,6 +99,14 @@ generate.estimates <- function(delay.tbl.tmp, Dmax, do.plots=F, uf='tmp'){
       lines(x = range(x), y = rep(0,2), lty=2)
     }
 
+    # Check if plot folder exists
+    if (!dir.exists('./plots')) {
+      dir.create(file.path('./plots'), showWarnings = FALSE)
+    }
+    if (!dir.exists(file.path('./plots',uf))) {
+      dir.create(file.path('./plots',uf), showWarnings = FALSE)
+    }
+
     svg(paste0('./plots/',uf,'/time_effect.svg'))
     plot.inla.re(output$summary.random$Time)
     dev.off()
