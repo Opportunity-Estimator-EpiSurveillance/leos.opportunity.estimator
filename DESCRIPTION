@@ -25,7 +25,7 @@ Depends:
 Collate:
     'episem.R'
     'lastepiweek.R'
-    'aggregate.notified.cases.R'
+    'aggregateby.notified.cases.R'
     'post.sum.R'
     'post.thresholds.R'
     'generate.estimates.R'

@@ -6,7 +6,7 @@
 NULL
 #' @import RColorBrewer scales
 NULL
-#' @include episem.R lastepiweek.R generate.estimates.R post.thresholds.R post.sum.R aggregate.notified.cases.R
+#' @include episem.R lastepiweek.R generate.estimates.R post.thresholds.R post.sum.R aggregateby.notified.cases.R
 NULL
 
 #' Method to generate estimates based on notification opportunity profile.
@@ -62,7 +62,6 @@ apply.leos.method <- function(df.in, current.epiyearweek, quantile.target=.95, l
   current.epiyear <- as.integer(stri_sub(current.epiyearweek, 1, 4))
 
   # Create columns with epiweek, epiyear, and epiyearweek for notification and digitalization ones:
-  d <- cbind(d, t(sapply(d$DT_NOTIFIC,generate.columns.from.date)))
   names(d) <- sub("^epi", "DT_NOTIFIC_epi", names(d))
   d <- cbind(d, t(sapply(d$DT_DIGITA,generate.columns.from.date)))
   names(d) <- sub("^epi", "DT_DIGITA_epi", names(d))
@@ -76,7 +75,7 @@ apply.leos.method <- function(df.in, current.epiyearweek, quantile.target=.95, l
   d <- d[d$DT_DIGITA_epiyear < current.epiyear | (d$DT_DIGITA_epiyear==current.epiyear & d$DT_DIGITA_epiweek<=current.epiweek), ]
 
   # Aggregate weekly data:
-  d.weekly <- aggregate.notified.cases(d[,c('ID_MUNICIP', 'DT_NOTIFIC_epiyearweek')],
+  d.weekly <- aggregateby.notified.cases(d[,c('ID_MUNICIP', 'DT_NOTIFIC_epiyearweek')],
                                        current.epiweek = current.epiweek, current.epiyear = current.epiyear)
   d.weekly$Situation <- 'stable'
   d.weekly[,c("mean","50%","2.5%","97.5%")] <- d.weekly$CASOS_NOTIFIC
