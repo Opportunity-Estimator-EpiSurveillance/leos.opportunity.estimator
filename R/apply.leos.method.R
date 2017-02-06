@@ -62,6 +62,7 @@ apply.leos.method <- function(df.in, current.epiyearweek, quantile.target=.95, l
   current.epiyear <- as.integer(stri_sub(current.epiyearweek, 1, 4))
 
   # Create columns with epiweek, epiyear, and epiyearweek for notification and digitalization ones:
+  d <- cbind(d, t(sapply(d$DT_NOTIFIC,generate.columns.from.date)))
   names(d) <- sub("^epi", "DT_NOTIFIC_epi", names(d))
   d <- cbind(d, t(sapply(d$DT_DIGITA,generate.columns.from.date)))
   names(d) <- sub("^epi", "DT_DIGITA_epi", names(d))
