@@ -11,7 +11,7 @@ NULL
 
 #' Method to generate estimates based on notification opportunity profile.
 #'
-#' Function \code{leos_method} applies the following method for the estimates:
+#' Function \code{apply.leos.method} applies the following method for the estimates:
 #' Notification delay modelling
 #' by Leo Bastos
 #'
@@ -33,7 +33,7 @@ NULL
 #' @name apply.leos.method
 #'
 #' @param df.in Data frame with the FIRST THREE columns refering to [,1] location id, [,2] notification date,
-#'   [,3] digitization date.
+#'   [,3] digitization date, unless all(c('ID_MUNICIP', 'DT_NOTIFIC', 'DT_DIGITA') \%in\% names(df.in)) == T
 #' @param current.epiyearweek Most recent epidemiological week to be considered and estimated.
 #'   Expected format YYYY*WW, e.g., 2010W03
 #' @param quantile.target Quantile to be used to determine Dmax from delay profile. Default: 0.95
@@ -47,7 +47,8 @@ NULL
 #'
 #' @examples
 #' data(opportunity.example.data)
-#' apply.leos.method(opportunity.example.data, current.epiyearweek='2014W52', quantile.target=0.95)
+#' res <- apply.leos.method(opportunity.example.data, current.epiyearweek='2014W52',
+#'  quantile.target=0.95)
 #'
 #' @author Marcelo F C Gomes \email{marcelo.gomes@@fiocruz.br}
 #'
@@ -56,24 +57,29 @@ NULL
 apply.leos.method <- function(df.in, current.epiyearweek, quantile.target=.95, low.activity=NULL,
                               generate.plots=F){
 
-  d <- df.in[,1:3]
-  names(d) <- c('ID_MUNICIP', 'DT_NOTIFIC', 'DT_DIGITA')
+  d <- df.in
+  target.cols <- c('ID_MUNICIP', 'DT_NOTIFIC', 'DT_DIGITA')
+  if (!all(target.cols %in% names(d))){
+    names(d)[1:3] <- c('ID_MUNICIP', 'DT_NOTIFIC', 'DT_DIGITA')
+  }
+
   current.epiweek <- as.integer(stri_sub(current.epiyearweek, -2, -1))
   current.epiyear <- as.integer(stri_sub(current.epiyearweek, 1, 4))
 
   # Create columns with epiweek, epiyear, and epiyearweek for notification and digitalization ones:
-  d <- cbind(d, t(sapply(d$DT_NOTIFIC,generate.columns.from.date)))
-  names(d) <- sub("^epi", "DT_NOTIFIC_epi", names(d))
-  d <- cbind(d, t(sapply(d$DT_DIGITA,generate.columns.from.date)))
-  names(d) <- sub("^epi", "DT_DIGITA_epi", names(d))
-
-  # Unlist new columns:
-  for (c in grep('epi', names(d), value=TRUE)){
-    d[[c]] <- unlist(d[[c]])
+  target.cols <- c('DT_NOTIFIC_epiyearweek', 'DT_NOTIFIC_epiweek', 'DT_NOTIFIC_epiyear')
+  if (!all(target.cols %in% names(d))){
+    d <- generate.columns.from.date(d, 'DT_NOTIFIC')
+    names(d) <- sub("^epi", "DT_NOTIFIC_epi", names(d))
+  }
+  target.cols <- c('DT_DIGITA_epiyearweek', 'DT_DIGITA_epiweek', 'DT_DIGITA_epiyear')
+  if (!all(target.cols %in% names(d))){
+    d <- generate.columns.from.date(d, 'DT_DIGITA')
+    names(d) <- sub("^epi", "DT_DIGITA_epi", names(d))
   }
 
   # Discar incomplete data from the current week for estimation:
-  d <- d[d$DT_DIGITA_epiyear < current.epiyear | (d$DT_DIGITA_epiyear==current.epiyear & d$DT_DIGITA_epiweek<=current.epiweek), ]
+  d <- d[d$DT_DIGITA_epiyearweek <= current.epiyearweek, ]
 
   # Aggregate weekly data:
   d.weekly <- aggregateby.notified.cases(d[,c('ID_MUNICIP', 'DT_NOTIFIC_epiyearweek')],
@@ -188,7 +194,7 @@ apply.leos.method <- function(df.in, current.epiyearweek, quantile.target=.95, l
       aux2 <- round(t(apply(df.tbl.tmp.estimates$samples,1,FUN = post.sum)))
 
       # # Calculate corresponding incidence
-      # years <- d.weekly[index.time, 'epiyear']
+      # years <- d.weekly[index.time, 'DT_NOTIFIC_epiyear']
       # pop <- sapply(years, FUN=function(x) d_pop$Total[d_pop$`Código`==mun & d_pop$Ano==x])
       # aux2 <- aux2*100000/pop
 
@@ -211,7 +217,8 @@ apply.leos.method <- function(df.in, current.epiyearweek, quantile.target=.95, l
   }
 
   d.weekly[,'Run date'] <- Sys.Date()
-  df.Dmax <- data.frame(list(ID_MUNICIP=names(delay.topquantile), epiyearweek=current.epiyearweek, Dmax=delay.topquantile, Execution=Sys.Date()))
+  df.Dmax <- data.frame(list(ID_MUNICIP=names(delay.topquantile), epiyearweek=current.epiyearweek, Dmax=delay.topquantile,
+                             Execution=Sys.Date()), stringsAsFactors = F)
 
   return(list(estimated.data.frame=d.weekly, delay.cutoff=df.Dmax))
 }

@@ -4,15 +4,16 @@
 \alias{generate.columns.from.date}
 \title{Generate new columns epiyearweek, epiweek and epiyear from date column}
 \usage{
-generate.columns.from.date(x)
+generate.columns.from.date(df.in, target.col)
 }
 \arguments{
-\item{x}{String with date in the format YYYY-DD-MM or an object of class Date}
+\item{df.in}{Data frame object}
+
+\item{target.col}{Name or position of column with values of type Date or character in the format \%Y-\%m-\%d}
 }
 \value{
-\code{generate.columns.from.date} returns a named list with the values
-epiweek, epiyear and epiyearweek
-epiyearweek have the format 2009W42
+\code{generate.columns.from.date} returns a new data frame with same columns of df.in plus columns epiyear, epiweek,
+  epiyearweek. epiyearweek has the format \%Y'W'\%w (e.g., 2009W42)
 }
 \description{
 Function \code{generate.columns.from.date} creates new column from original one
@@ -20,7 +21,7 @@ written in the format YYYY-MM-DD, using Brazilian epidemiological week system
 }
 \examples{
 df <- data.frame(list(date=c('2009-08-01', '2009-09-01', '2009-10-01', '2010-01-01')))
-t(sapply(df$date, generate.columns.from.date))
+df.new <- generate.columns.from.date(df, 'date')
 
 }
 

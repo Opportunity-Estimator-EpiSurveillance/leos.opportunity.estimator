@@ -5,7 +5,7 @@ NULL
 #' @name lastepiweek
 #'
 #' @param ano Year
-#' @keywords internal
+#' @keywords export
 lastepiweek <- function(ano){
 
   # Calcula o valor da última semana do ano

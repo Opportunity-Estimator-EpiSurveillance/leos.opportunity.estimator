@@ -1,7 +1,7 @@
 Package: leos.opportunity.estimator
 Type: Package
 Title: Notification Opportunity Estimator
-Version: 0.3.1
+Version: 0.4.0
 Authors@R: c(person("Gomes", "Marcelo F. C.", email = "marfcg@gmail.com", role = c("aut", "cre")),
             person("Bastos", "Leonardo", role = c("aut")),
             person("Codeço", "Claudia T.", role = c("ctb")),
@@ -34,6 +34,7 @@ Collate:
     'generate.columns.from.epiyearweek.R'
     'opportunity.example.data-data.R'
     'previous.epiyearweek.from.date.R'
+    'recursively.apply.leos.method.R'
 RoxygenNote: 5.0.1
 Suggests:
     testthat

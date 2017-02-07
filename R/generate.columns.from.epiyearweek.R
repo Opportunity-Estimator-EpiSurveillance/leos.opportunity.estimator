@@ -5,21 +5,23 @@
 #'
 #' @name generate.columns.from.epiyearweek
 #'
-#' @param x String with date in the format YYYY-DD-MM or an object of class Date
+#' @param df.in Data frame object
+#' @param target.col Name or position of column with values of type character in the format \%Y'W'\%w
 #'
 #' @return
-#' \code{generate.columns.from.date} returns a named list with the values
-#' epiweek, epiyear
+#' \code{generate.columns.from.date} returns a data frame with the same columns as df.in plus columns
+#'   epiweek and epiyear
 #'
 #' @examples
 #' df <- data.frame(list(epiyearweek=c('2009W30', '2009W35', '2009W39', '2009W52')))
-#' t(sapply(df$epiyearweek, generate.columns.from.epiyearweek))
+#' df.new <- generate.columns.from.epiyearweek(df, 'epiyearweek')
 #'
 #' @export
-generate.columns.from.epiyearweek <- function(x){
-
-  epiweek.val <- as.integer(stri_sub(x, -2, -1))
-  epiyear.val <- as.integer(stri_sub(x, 1, 4))
-
-  return(list(epiweek=epiweek.val, epiyear=epiyear.val))
+generate.columns.from.epiyearweek <- function(df.in, target.col){
+  df.in[, 'epiweek'] <- mapply(function (x) as.integer(strsplit(as.character(x[[1]]), 'W')[[1]][2]),
+                                          df.in[, target.col])
+  df.in[, 'epiyear'] <- mapply(function (x) as.integer(strsplit(as.character(x[[1]]), 'W')[[1]][1]),
+                                          df.in[, target.col])
+  return(df.in)
 }
+

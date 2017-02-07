@@ -8,23 +8,23 @@ NULL
 #'
 #' @name generate.columns.from.date
 #'
-#' @param x String with date in the format YYYY-DD-MM or an object of class Date
+#' @param df.in Data frame object
+#' @param target.col Name or position of column with values of type Date or character in the format \%Y-\%m-\%d
 #'
 #' @return
-#' \code{generate.columns.from.date} returns a named list with the values
-#' epiweek, epiyear and epiyearweek
-#' epiyearweek have the format 2009W42
+#' \code{generate.columns.from.date} returns a new data frame with same columns of df.in plus columns epiyear, epiweek,
+#'   epiyearweek. epiyearweek has the format \%Y'W'\%w (e.g., 2009W42)
 #'
 #' @examples
 #' df <- data.frame(list(date=c('2009-08-01', '2009-09-01', '2009-10-01', '2010-01-01')))
-#' t(sapply(df$date, generate.columns.from.date))
+#' df.new <- generate.columns.from.date(df, 'date')
 #'
 #' @export
-generate.columns.from.date <- function(x){
-
-  epiweek.val <- as.integer(episem(x, retorna='W'))
-  epiyear.val <- as.integer(episem(x, retorna='Y'))
-  epiyearweek.val <- episem(x)
-
-  return(list(epiweek=epiweek.val, epiyear=epiyear.val, epiyearweek=epiyearweek.val))
+generate.columns.from.date <- function(df.in, target.col){
+  df.in$epiyearweek <- mapply(function(x) episem(x), df.in[, target.col])
+  df.in$epiweek <- mapply(function (x) as.integer(strsplit(as.character(x[[1]]), 'W')[[1]][2]),
+                                          df.in[, 'epiyearweek'])
+  df.in$epiyear <- mapply(function (x) as.integer(strsplit(as.character(x[[1]]), 'W')[[1]][1]),
+                                          df.in[, 'epiyearweek'])
+  return(df.in)
 }

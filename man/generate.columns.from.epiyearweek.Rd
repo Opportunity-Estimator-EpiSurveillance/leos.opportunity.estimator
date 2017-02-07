@@ -4,14 +4,16 @@
 \alias{generate.columns.from.epiyearweek}
 \title{Generate new columns epiweek and epiyear from epiyearweek}
 \usage{
-generate.columns.from.epiyearweek(x)
+generate.columns.from.epiyearweek(df.in, target.col)
 }
 \arguments{
-\item{x}{String with date in the format YYYY-DD-MM or an object of class Date}
+\item{df.in}{Data frame object}
+
+\item{target.col}{Name or position of column with values of type character in the format \%Y'W'\%w}
 }
 \value{
-\code{generate.columns.from.date} returns a named list with the values
-epiweek, epiyear
+\code{generate.columns.from.date} returns a data frame with the same columns as df.in plus columns
+  epiweek and epiyear
 }
 \description{
 Function \code{generate.columns.from.epiyearweek} creates new column from original one
@@ -19,7 +21,7 @@ written in the format YYYY*WW
 }
 \examples{
 df <- data.frame(list(epiyearweek=c('2009W30', '2009W35', '2009W39', '2009W52')))
-t(sapply(df$epiyearweek, generate.columns.from.epiyearweek))
+df.new <- generate.columns.from.epiyearweek(df, 'epiyearweek')
 
 }
 

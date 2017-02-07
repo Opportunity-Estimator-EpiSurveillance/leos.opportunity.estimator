@@ -12,5 +12,5 @@ lastepiweek(ano)
 \description{
 Calculate number of year's last epidemiological week using Brazilian standard.
 }
-\keyword{internal}
+\keyword{export}
 
