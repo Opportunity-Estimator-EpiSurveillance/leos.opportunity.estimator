@@ -76,7 +76,6 @@ recursively.apply.leos.method <- function(df.in, epiyearweek.list, quantile.targ
   }
 
   # Aggregate weekly data up to last notification:
-  last.index <- length(epiyearweek.list)
   last.epiyearweek <- max(d$DT_NOTIFIC_epiyearweek)
   last.epiweek <- as.integer(stri_sub(last.epiyearweek, -2, -1))
   last.epiyear <- as.integer(stri_sub(last.epiyearweek, 1, 4))
@@ -103,6 +102,7 @@ recursively.apply.leos.method <- function(df.in, epiyearweek.list, quantile.targ
   delay.cutoff[delay.cutoff$epiyearweek == current.epiyearweek, ] <- res$delay.cutoff
 
   previous.epiyearweek <- current.epiyearweek
+  last.index <- length(epiyearweek.list)
   for (current.epiyearweek in epiyearweek.list[2:last.index]){
     res <- apply.leos.method(d, current.epiyearweek=current.epiyearweek, quantile.target=quantile.target, low.activity=low.activity,
                              generate.plots=generate.plots)
