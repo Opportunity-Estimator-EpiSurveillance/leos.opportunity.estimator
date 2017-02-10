@@ -43,6 +43,8 @@ NULL
 #' \item{estimated.data.frame}{Data frame containing the weekly aggregate of df.in, plus columns with estimate mean,
 #' quantiles 2.5\%, 50\% and 97.5\% and other relevant info}
 #' \item{delay.cutoff}{Data frame with Dmax obtained for each locality, epiyearweek used as cutoff and execution date}
+#' \item{estimated.epiyearweek}{List of epidemiological weeks requested}
+#' \item{call}{Function call}
 #'
 #' @examples
 #' data(opportunity.example.data)
@@ -100,6 +102,7 @@ recursively.apply.leos.method <- function(df.in, epiyearweek.list, quantile.targ
   d.weekly[d.weekly$DT_NOTIFIC_epiyearweek <= current.epiyearweek, estimate.columns] <- res$estimated.data.frame[
     res$estimated.data.frame$DT_NOTIFIC_epiyearweek <= current.epiyearweek, estimate.columns]
   delay.cutoff[delay.cutoff$epiyearweek == current.epiyearweek, ] <- res$delay.cutoff
+  estimated.epiyearweek <- res$estimated.epiyearweek
 
   previous.epiyearweek <- current.epiyearweek
   last.index <- length(epiyearweek.list)
@@ -118,6 +121,10 @@ recursively.apply.leos.method <- function(df.in, epiyearweek.list, quantile.targ
     cols.res <- (res$delay.cutoff$epiyearweek > previous.epiyearweek &
                    res$delay.cutoff$epiyearweek <= current.epiyearweek)
     delay.cutoff[cols.delay.cutoff, ] <- res$delay.cutoff[cols.res, ]
+    estimated.epiyearweek <- c(estimated.epiyearweek, res$estimated.epiyearweek)
   }
-  return(list(estimated.data.frame=d.weekly, delay.cutoff=delay.cutoff))
+  return(list(estimated.data.frame=d.weekly,
+              delay.cutoff=delay.cutoff,
+              estimated.epiyearweek=estimated.epiyearweek,
+              call=match.call()))
 }

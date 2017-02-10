@@ -1,7 +1,7 @@
 Package: leos.opportunity.estimator
 Type: Package
 Title: Notification Opportunity Estimator
-Version: 0.4.0
+Version: 0.4.1
 Authors@R: c(person("Gomes", "Marcelo F. C.", email = "marfcg@gmail.com", role = c("aut", "cre")),
             person("Bastos", "Leonardo", role = c("aut")),
             person("Codeço", "Claudia T.", role = c("ctb")),
