@@ -122,6 +122,8 @@ recursively.apply.leos.method <- function(df.in, epiyearweek.list, quantile.targ
                    res$delay.cutoff$epiyearweek <= current.epiyearweek)
     delay.cutoff[cols.delay.cutoff, ] <- res$delay.cutoff[cols.res, ]
     estimated.epiyearweek <- c(estimated.epiyearweek, res$estimated.epiyearweek)
+
+    previous.epiyearweek <- current.epiyearweek
   }
   return(list(estimated.data.frame=d.weekly,
               delay.cutoff=delay.cutoff,
