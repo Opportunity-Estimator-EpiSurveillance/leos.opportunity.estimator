@@ -43,7 +43,8 @@ NULL
 #' \item{estimated.data.frame}{Data frame containing the weekly aggregate of df.in, plus columns with estimate mean,
 #' quantiles 2.5\%, 50\% and 97.5\% and other relevant info}
 #' \item{delay.cutoff}{Data frame with Dmax obtained for each locality, epiyearweek used as cutoff and execution date}
-#' \item{estimated.epiyearweek}{List of epidemiological weeks requested}
+#' \item{estimated.epiyearweek.list}{List of estimated epidemiological weeks}
+#' \item{requested.epiyearweek.list}{List of epidemiological weeks requested}
 #' \item{call}{Function call}
 #'
 #' @examples
@@ -125,8 +126,13 @@ recursively.apply.leos.method <- function(df.in, epiyearweek.list, quantile.targ
 
     previous.epiyearweek <- current.epiyearweek
   }
+
+  if (!all(estimated.epiyearweek %in% epiyearweek.list)){
+    stop('Estimated list does not match request')
+  }
   return(list(estimated.data.frame=d.weekly,
               delay.cutoff=delay.cutoff,
-              estimated.epiyearweek=estimated.epiyearweek,
+              estimated.epiyearweek.list=estimated.epiyearweek,
+              requested.epiyearweek.list=epiyearweek.list,
               call=match.call()))
 }

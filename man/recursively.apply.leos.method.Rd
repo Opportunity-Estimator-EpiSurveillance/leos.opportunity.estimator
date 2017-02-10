@@ -24,7 +24,8 @@ Function \code{apply.leos.method} returns a list containing the following compon
 \item{estimated.data.frame}{Data frame containing the weekly aggregate of df.in, plus columns with estimate mean,
 quantiles 2.5\%, 50\% and 97.5\% and other relevant info}
 \item{delay.cutoff}{Data frame with Dmax obtained for each locality, epiyearweek used as cutoff and execution date}
-\item{estimated.epiyearweek}{List of epidemiological weeks requested}
+\item{estimated.epiyearweek.list}{List of estimated epidemiological weeks}
+\item{requested.epiyearweek.list}{List of epidemiological weeks requested}
 \item{call}{Function call}
 }
 \description{
