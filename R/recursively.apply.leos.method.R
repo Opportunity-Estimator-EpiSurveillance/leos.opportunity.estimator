@@ -93,7 +93,7 @@ recursively.apply.leos.method <- function(df.in, epiyearweek.list, quantile.targ
   tspawn <- epiyearweek.list
   mun.col <- rep(mun.list, length(tspawn))
   epiyearweek.col <- sort(rep(tspawn, length(mun.list)))
-  delay.cutoff <- data.frame(list(ID_MUNICIP=mun.col, epiyearweek=epiyearweek.col, Dmax=NA, Execution=Sys.Date()),
+  delay.cutoff.tbl <- data.frame(list(ID_MUNICIP=mun.col, epiyearweek=epiyearweek.col, Dmax=NA, Execution=Sys.Date()),
                              stringsAsFactors = F)
 
   estimate.columns <- c("Situation","mean","50%","2.5%","97.5%", "Run date")
@@ -102,7 +102,7 @@ recursively.apply.leos.method <- function(df.in, epiyearweek.list, quantile.targ
                            generate.plots=generate.plots)
   d.weekly[d.weekly$DT_NOTIFIC_epiyearweek <= current.epiyearweek, estimate.columns] <- res$estimated.data.frame[
     res$estimated.data.frame$DT_NOTIFIC_epiyearweek <= current.epiyearweek, estimate.columns]
-  delay.cutoff[delay.cutoff$epiyearweek == current.epiyearweek, ] <- res$delay.cutoff
+  delay.cutoff.tbl[delay.cutoff.tbl$epiyearweek == current.epiyearweek, ] <- res$delay.cutoff
   estimated.epiyearweek <- res$estimated.epiyearweek
 
   previous.epiyearweek <- current.epiyearweek
@@ -117,11 +117,11 @@ recursively.apply.leos.method <- function(df.in, epiyearweek.list, quantile.targ
                    res$estimated.data.frame$DT_NOTIFIC_epiyearweek <= current.epiyearweek)
     d.weekly[cols.d.weekly, estimate.columns] <- res$estimated.data.frame[cols.res, estimate.columns]
 
-    cols.delay.cutoff <- (delay.cutoff$epiyearweek > previous.epiyearweek &
-                            delay.cutoff$epiyearweek <= current.epiyearweek)
+    cols.delay.cutoff.tbl <- (delay.cutoff.tbl$epiyearweek > previous.epiyearweek &
+                            delay.cutoff.tbl$epiyearweek <= current.epiyearweek)
     cols.res <- (res$delay.cutoff$epiyearweek > previous.epiyearweek &
                    res$delay.cutoff$epiyearweek <= current.epiyearweek)
-    delay.cutoff[cols.delay.cutoff, ] <- res$delay.cutoff[cols.res, ]
+    delay.cutoff.tbl[cols.delay.cutoff.tbl, ] <- res$delay.cutoff[cols.res, ]
     estimated.epiyearweek <- c(estimated.epiyearweek, res$estimated.epiyearweek)
 
     previous.epiyearweek <- current.epiyearweek
@@ -131,7 +131,7 @@ recursively.apply.leos.method <- function(df.in, epiyearweek.list, quantile.targ
     stop('Estimated list does not match request')
   }
   return(list(estimated.data.frame=d.weekly,
-              delay.cutoff=delay.cutoff,
+              delay.cutoff=delay.cutoff.tbl,
               estimated.epiyearweek.list=estimated.epiyearweek,
               requested.epiyearweek.list=epiyearweek.list,
               call=match.call()))

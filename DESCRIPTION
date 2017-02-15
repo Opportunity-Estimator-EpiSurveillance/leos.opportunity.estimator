@@ -1,7 +1,7 @@
 Package: leos.opportunity.estimator
 Type: Package
 Title: Notification Opportunity Estimator
-Version: 0.5.0
+Version: 0.6.1
 Authors@R: c(person("Gomes", "Marcelo F. C.", email = "marfcg@gmail.com", role = c("aut", "cre")),
             person("Bastos", "Leonardo", role = c("aut")),
             person("Codeço", "Claudia T.", role = c("ctb")),
@@ -30,6 +30,7 @@ Collate:
     'post.thresholds.R'
     'generate.estimates.R'
     'apply.leos.method.R'
+    'episem2date.R'
     'generate.columns.from.date.R'
     'generate.columns.from.epiyearweek.R'
     'opportunity.example.data-data.R'
