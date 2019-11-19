@@ -44,6 +44,8 @@ NULL
 #' \item{estimated.data.frame}{Data frame containing the weekly aggregate of df.in, plus columns with estimate mean,
 #' quantiles 2.5\%, 50\% and 97.5\% and other relevant info}
 #' \item{delay.cutoff}{Data frame with Dmax obtained for each locality, epiyearweek used as cutoff and execution date}
+#' \item{estimated.epiyearweek}{Epidemiological week requested}
+#' \item{call}{Function call}
 #'
 #' @examples
 #' data(opportunity.example.data)
@@ -220,5 +222,8 @@ apply.leos.method <- function(df.in, current.epiyearweek, quantile.target=.95, l
   df.Dmax <- data.frame(list(ID_MUNICIP=names(delay.topquantile), epiyearweek=current.epiyearweek, Dmax=delay.topquantile,
                              Execution=Sys.Date()), stringsAsFactors = F)
 
-  return(list(estimated.data.frame=d.weekly, delay.cutoff=df.Dmax))
+  return(list(estimated.data.frame=d.weekly,
+              delay.cutoff=df.Dmax,
+              estimated.epiyearweek=current.epiyearweek,
+              call=match.call()))
 }

@@ -3,6 +3,7 @@
 export(aggregateby.notified.cases)
 export(apply.leos.method)
 export(episem)
+export(episem2date)
 export(generate.columns.from.date)
 export(generate.columns.from.epiyearweek)
 export(previous.epiyearweek.from.date)
