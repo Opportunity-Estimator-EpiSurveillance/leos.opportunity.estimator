@@ -26,6 +26,7 @@ Function \code{apply.leos.method} returns a list containing the following compon
 quantiles 2.5\%, 50\% and 97.5\% and other relevant info}
 \item{delay.cutoff}{Data frame with Dmax obtained for each locality, epiyearweek used as cutoff and execution date}
 \item{estimated.epiyearweek}{Epidemiological week requested}
+\item{model.pars}{List with model's WAIC, DIC and hyperparameters from the INLA, for each locality (as character)}
 \item{call}{Function call}
 }
 \description{
@@ -58,4 +59,3 @@ res <- apply.leos.method(opportunity.example.data, current.epiyearweek='2014W52'
 \author{
 Marcelo F C Gomes \email{marcelo.gomes@fiocruz.br}
 }
-

@@ -1,7 +1,7 @@
 Package: leos.opportunity.estimator
 Type: Package
 Title: Notification Opportunity Estimator
-Version: 0.6.1
+Version: 0.7.0
 Authors@R: c(person("Gomes", "Marcelo F. C.", email = "marfcg@gmail.com", role = c("aut", "cre")),
             person("Bastos", "Leonardo", role = c("aut")),
             person("Codeço", "Claudia T.", role = c("ctb")),
@@ -21,8 +21,9 @@ Depends:
     grDevices,
     graphics,
     stats,
-    utils
-Collate:
+    utils,
+    stringr
+Collate: 
     'episem.R'
     'lastepiweek.R'
     'aggregateby.notified.cases.R'
@@ -30,12 +31,16 @@ Collate:
     'post.thresholds.R'
     'generate.estimates.R'
     'apply.leos.method.R'
+    'delay.profile.R'
+    'delay.profile.timeseries.R'
     'episem2date.R'
     'generate.columns.from.date.R'
     'generate.columns.from.epiyearweek.R'
+    'multiplot.R'
     'opportunity.example.data-data.R'
     'previous.epiyearweek.from.date.R'
     'recursively.apply.leos.method.R'
-RoxygenNote: 5.0.1
+    'setFactorOrder.R'
+RoxygenNote: 6.1.1
 Suggests:
     testthat

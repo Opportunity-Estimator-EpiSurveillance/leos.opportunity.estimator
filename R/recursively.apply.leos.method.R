@@ -63,6 +63,7 @@ recursively.apply.leos.method <- function(df.in, epiyearweek.list, quantile.targ
   d <- df.in
   target.cols <- c('ID_MUNICIP', 'DT_NOTIFIC', 'DT_DIGITA')
   if (!all(target.cols %in% names(d))){
+    original.col.names <- names(d)[1:3]
     names(d)[1:3] <- c('ID_MUNICIP', 'DT_NOTIFIC', 'DT_DIGITA')
   }
 
@@ -79,14 +80,14 @@ recursively.apply.leos.method <- function(df.in, epiyearweek.list, quantile.targ
   }
 
   # Aggregate weekly data up to last notification:
-  last.epiyearweek <- max(d$DT_NOTIFIC_epiyearweek)
+  last.epiyearweek <- max(d$DT_NOTIFIC_epiyearweek, na.rm=T)
   last.epiweek <- as.integer(stri_sub(last.epiyearweek, -2, -1))
   last.epiyear <- as.integer(stri_sub(last.epiyearweek, 1, 4))
 
   d.weekly <- aggregateby.notified.cases(d[,c('ID_MUNICIP', 'DT_NOTIFIC_epiyearweek')],
                                          current.epiweek = last.epiweek, current.epiyear = last.epiyear)
   d.weekly$Situation <- 'stable'
-  d.weekly[,c("mean","50%","2.5%","97.5%")] <- d.weekly$CASOS_NOTIFIC
+  d.weekly[,c("mean","50%","2.5%","97.5%")] <- d.weekly$notified_cases
   d.weekly[,'Run date'] <- Sys.Date()
 
   mun.list <- unique(d$ID_MUNICIP)

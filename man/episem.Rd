@@ -22,4 +22,3 @@ hosted at http://www.procc.fiocruz.br/~oswaldo/ocmisc.r
 \author{
 Oswaldo G. Cruz
 }
-

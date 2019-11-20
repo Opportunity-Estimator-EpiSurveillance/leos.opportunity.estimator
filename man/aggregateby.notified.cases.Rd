@@ -21,4 +21,3 @@ Data frame with aggregate counts by epiyearweek
 \description{
 Aggregate total notified cases per epiweekyear
 }
-

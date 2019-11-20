@@ -4,23 +4,23 @@
 \alias{generate.estimates}
 \title{Function to generate INLA estimates}
 \usage{
-generate.estimates(delay.tbl.tmp, Dmax, do.plots = F, uf = "tmp")
+generate.estimates(delay.tbl.tmp, Dmax, do.plots = F,
+  plot.folder = "tmp")
 }
 \arguments{
 \item{delay.tbl.tmp}{Table with at least Dmax+1 columns. First column is the total count,
 followed by counts with delay 0, 1, 2, ...}
 
-\item{Dmax}{Maximum delay to be taken into account}
+\item{Dmax}{Maximum delay to be taken into account. Data is assumed to be stable after that.}
 
 \item{do.plots}{Wether to generate plots or not. Default: F}
 
-\item{uf}{ID for plot folder. Default: 'tmp'}
+\item{plot.folder}{name for plot subfolder. Default: 'tmp'}
 }
 \description{
 Function \code{generate.estimates} applies Leo's Method to a table with counts and delays
 }
 \author{
-Leo Bastos
+Leo Bastos, Marcelo F C Gomes
 }
 \keyword{internal}
-
