@@ -45,6 +45,7 @@ NULL
 #' quantiles 2.5\%, 50\% and 97.5\% and other relevant info}
 #' \item{delay.cutoff}{Data frame with Dmax obtained for each locality, epiyearweek used as cutoff and execution date}
 #' \item{estimated.epiyearweek}{Epidemiological week requested}
+#' \item{model.pars}{List with model's WAIC, DIC and hyperparameters from the INLA, for each locality (as character)}
 #' \item{call}{Function call}
 #'
 #' @examples
@@ -62,6 +63,7 @@ apply.leos.method <- function(df.in, current.epiyearweek, quantile.target=.95, l
   d <- df.in
   target.cols <- c('ID_MUNICIP', 'DT_NOTIFIC', 'DT_DIGITA')
   if (!all(target.cols %in% names(d))){
+    original.col.names <- names(d)[1:3]
     names(d)[1:3] <- c('ID_MUNICIP', 'DT_NOTIFIC', 'DT_DIGITA')
   }
 
@@ -87,14 +89,14 @@ apply.leos.method <- function(df.in, current.epiyearweek, quantile.target=.95, l
   d.weekly <- aggregateby.notified.cases(d[,c('ID_MUNICIP', 'DT_NOTIFIC_epiyearweek')],
                                        current.epiweek = current.epiweek, current.epiyear = current.epiyear)
   d.weekly$Situation <- 'stable'
-  d.weekly[,c("mean","50%","2.5%","97.5%")] <- d.weekly$CASOS_NOTIFIC
+  d.weekly[,c("mean","50%","2.5%","97.5%")] <- d.weekly$notified_cases
 
   # Calculate opportunity between notification and upload:
   d$DelayWeeks <- d$DT_DIGITA_epiweek - d$DT_NOTIFIC_epiweek +
     (d$DT_DIGITA_epiyear - d$DT_NOTIFIC_epiyear)*as.integer(sapply(d$DT_NOTIFIC_epiyear,lastepiweek))
 
   # Discard notifications with delay greater than 6 months (> 26 weeks)
-  d <- na.exclude(d[d$DelayWeeks < 27, ])
+  d <- d[d$DelayWeeks < 27, ]
 
   # Grab target quantile from delay distribution for each UF
   delay.topquantile <- c(ceiling(with(d, tapply(DelayWeeks, ID_MUNICIP, FUN = function(x,...) max(8,quantile(x,...)),
@@ -125,6 +127,9 @@ apply.leos.method <- function(df.in, current.epiyearweek, quantile.target=.95, l
 
   # List of locations:
   mun_list <- unique(d$ID_MUNICIP)
+
+  # INLA output storage list:
+  model.pars <- list()
 
   for (mun in mun_list){
 
@@ -190,7 +195,11 @@ apply.leos.method <- function(df.in, current.epiyearweek, quantile.target=.95, l
     if (!(mun %in% low.activity)) {
 
       # Calculate estimates
-      df.tbl.tmp.estimates <- generate.estimates(delay.tbl.tmp, Dmax=qthreshold, do.plots=generate.plots, uf=mun)
+      df.tbl.tmp.estimates <- generate.estimates(delay.tbl.tmp, Dmax=qthreshold, do.plots=generate.plots, plot.folder=mun)
+      model.pars[[as.character(mun)]] <- list(
+        waic = df.tbl.tmp.estimates$waic,
+        dic = df.tbl.tmp.estimates$dic,
+        hyperpar = df.tbl.tmp.estimates$hyperpar)
 
       # Generate quantiles estimates
       aux2 <- round(t(apply(df.tbl.tmp.estimates$samples,1,FUN = post.sum)))
@@ -214,6 +223,10 @@ apply.leos.method <- function(df.in, current.epiyearweek, quantile.target=.95, l
 
     } else {
       d.weekly[index.time, 'Situation'] <- 'unknown'
+      model.pars[[as.character(mun)]] <- list(
+        waic = NULL,
+        dic = NULL,
+        hyperpar = NULL)
     }
 
   }
@@ -222,8 +235,13 @@ apply.leos.method <- function(df.in, current.epiyearweek, quantile.target=.95, l
   df.Dmax <- data.frame(list(ID_MUNICIP=names(delay.topquantile), epiyearweek=current.epiyearweek, Dmax=delay.topquantile,
                              Execution=Sys.Date()), stringsAsFactors = F)
 
-  return(list(estimated.data.frame=d.weekly,
-              delay.cutoff=df.Dmax,
-              estimated.epiyearweek=current.epiyearweek,
-              call=match.call()))
+  return(
+    list(
+      estimated.data.frame = d.weekly,
+      delay.cutoff = df.Dmax,
+      estimated.epiyearweek = current.epiyearweek,
+      model.pars = model.pars,
+      call = match.call()
+    )
+  )
 }

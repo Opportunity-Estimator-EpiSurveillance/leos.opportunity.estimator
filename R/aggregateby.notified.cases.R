@@ -16,7 +16,7 @@ NULL
 #' @export
 aggregateby.notified.cases <- function(df.in, current.epiweek, current.epiyear){
   df.in.weekly <- data.frame(table(df.in[[1]], df.in[[2]]))
-  names(df.in.weekly) <- c('ID_MUNICIP', 'DT_NOTIFIC_epiyearweek', 'CASOS_NOTIFIC')
+  names(df.in.weekly) <- c('ID_MUNICIP', 'DT_NOTIFIC_epiyearweek', 'notified_cases')
   df.in.weekly$DT_NOTIFIC_epiweek <- mapply(function (x) as.integer(strsplit(as.character(x[[1]]), 'W')[[1]][2]),
                              df.in.weekly$DT_NOTIFIC_epiyearweek)
   df.in.weekly$DT_NOTIFIC_epiyear <- mapply(function (x) as.integer(strsplit(as.character(x[[1]]), 'W')[[1]][1]),
@@ -25,7 +25,7 @@ aggregateby.notified.cases <- function(df.in, current.epiweek, current.epiyear){
   fyear <- min(df.in.weekly$DT_NOTIFIC_epiyear)
   min.week <- min(df.in.weekly$DT_NOTIFIC_epiweek[df.in.weekly$DT_NOTIFIC_epiyear == fyear])
   years.list <- c(fyear:current.epiyear)
-  df.epiweeks <- data.frame(DT_NOTIFIC_epiyearweek=character(), UF=factor())
+  df.epiweeks <- data.frame(DT_NOTIFIC_epiyearweek=character(), ID_MUNICIP=character())
   # List of locations:
   mun_list <- unique(df.in.weekly$ID_MUNICIP)
   for (y in years.list){

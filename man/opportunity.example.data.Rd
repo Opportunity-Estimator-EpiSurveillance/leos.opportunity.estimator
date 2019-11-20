@@ -18,4 +18,3 @@ data(opportunity.example.data)
 table(opportunity.example.data)
 }
 \keyword{datasets}
-

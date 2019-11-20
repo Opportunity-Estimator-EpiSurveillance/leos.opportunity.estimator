@@ -24,4 +24,3 @@ df <- data.frame(list(epiyearweek=c('2009W30', '2009W35', '2009W39', '2009W52'))
 df.new <- generate.columns.from.epiyearweek(df, 'epiyearweek')
 
 }
-

@@ -4,8 +4,8 @@
 \alias{recursively.apply.leos.method}
 \title{Method to generate estimates based on notification opportunity profile for a sequence of epidemiological weeks}
 \usage{
-recursively.apply.leos.method(df.in, epiyearweek.list, quantile.target = 0.95,
-  low.activity = NULL, generate.plots = F)
+recursively.apply.leos.method(df.in, epiyearweek.list,
+  quantile.target = 0.95, low.activity = NULL, generate.plots = F)
 }
 \arguments{
 \item{df.in}{Data frame with the FIRST THREE columns refering to [,1] location id, [,2] notification date,
@@ -59,4 +59,3 @@ res <- recursively.apply.leos.method(opportunity.example.data,
 \author{
 Marcelo F C Gomes \email{marcelo.gomes@fiocruz.br}
 }
-

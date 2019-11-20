@@ -10,4 +10,3 @@ post.sum(x, probs = c(0.5, 0.025, 0.975))
 Descritavas da amostra a posteriori
 }
 \keyword{internal}
-

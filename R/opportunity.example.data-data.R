@@ -12,7 +12,9 @@
 #'
 #' @keywords datasets
 #'
+#' @name opportunity.example.data
+#'
 #' @examples
 #' data(opportunity.example.data)
 #' table(opportunity.example.data)
-"opportunity.example.data"
+NULL

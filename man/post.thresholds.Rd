@@ -10,4 +10,3 @@ post.thresholds(x, lims)
 Descritavas da amostra a posteriori
 }
 \keyword{internal}
-

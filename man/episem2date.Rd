@@ -28,4 +28,3 @@ week definition.
 epiyearweek <- '2014W02'
 episem2date(epiyearweek)
 }
-

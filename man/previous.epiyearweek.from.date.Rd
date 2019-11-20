@@ -21,4 +21,3 @@ day <- '2010-03-27'
 previous.epiyearweek.from.date(day)
 
 }
-

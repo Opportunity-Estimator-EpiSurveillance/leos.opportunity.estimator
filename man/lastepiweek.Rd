@@ -13,4 +13,3 @@ lastepiweek(ano)
 Calculate number of year's last epidemiological week using Brazilian standard.
 }
 \keyword{export}
-

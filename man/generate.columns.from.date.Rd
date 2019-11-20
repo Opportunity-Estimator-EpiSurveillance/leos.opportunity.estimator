@@ -24,4 +24,3 @@ df <- data.frame(list(date=c('2009-08-01', '2009-09-01', '2009-10-01', '2010-01-
 df.new <- generate.columns.from.date(df, 'date')
 
 }
-

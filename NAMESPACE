@@ -2,6 +2,8 @@
 
 export(aggregateby.notified.cases)
 export(apply.leos.method)
+export(delay.profile)
+export(delay.profile.timeseries)
 export(episem)
 export(episem2date)
 export(generate.columns.from.date)

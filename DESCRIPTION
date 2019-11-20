@@ -22,7 +22,7 @@ Depends:
     graphics,
     stats,
     utils
-Collate:
+Collate: 
     'episem.R'
     'lastepiweek.R'
     'aggregateby.notified.cases.R'
@@ -30,12 +30,16 @@ Collate:
     'post.thresholds.R'
     'generate.estimates.R'
     'apply.leos.method.R'
+    'delay.profile.R'
+    'delay.profile.timeseries.R'
     'episem2date.R'
     'generate.columns.from.date.R'
     'generate.columns.from.epiyearweek.R'
+    'multiplot.R'
     'opportunity.example.data-data.R'
     'previous.epiyearweek.from.date.R'
     'recursively.apply.leos.method.R'
-RoxygenNote: 5.0.1
+    'setFactorOrder.R'
+RoxygenNote: 6.1.1
 Suggests:
     testthat
