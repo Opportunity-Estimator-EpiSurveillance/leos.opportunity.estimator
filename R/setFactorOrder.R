@@ -24,5 +24,5 @@ setFactorOrder <- function(x, order=sort(levels(x))) {
 
   order <- c(setdiff(order, NotInx), Remaining)
 
-  factor(x, level=order)
+  factor(x, levels=order)
 }

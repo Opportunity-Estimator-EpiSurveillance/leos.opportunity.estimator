@@ -10,7 +10,8 @@ delay.profile.timeseries(dt, trainning = NULL)
 \item{dt}{data frame with at least the following ordered columns: location id [,1], epiweek [,2],
 and delay [,3] columns}
 
-\item{trainning}{}
+\item{trainning}{How many weeks from start of time series to use as training for
+baseline quantiles for dealy distribution. Default: 52.}
 }
 \value{
 Function \code{delay.profile.timeseries} returns a data.frame with quantiles

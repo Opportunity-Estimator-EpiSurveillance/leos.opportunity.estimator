@@ -1,3 +1,5 @@
+#' @importFrom stringr str_split_fixed
+NULL
 #' Title delay.profile.timeseries
 #'
 #' Method to evaluate how delay profile changes through time, with varying time windows.
@@ -6,7 +8,8 @@
 #'
 #' @param dt data frame with at least the following ordered columns: location id [,1], epiweek [,2],
 #'   and delay [,3] columns
-#' @param trainning
+#' @param trainning How many weeks from start of time series to use as training for
+#' baseline quantiles for dealy distribution. Default: 52.
 #'
 #' @return Function \code{delay.profile.timeseries} returns a data.frame with quantiles
 #' for historical delay by windows of 4, 8, 26, and 52 weeks.
