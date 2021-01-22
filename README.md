@@ -3,9 +3,15 @@ Method to generate estimates based on notification opportunity profile.
 
 Function apply.leos.method applies the following method for the estimates:
 
-Notification delay modelling
+Notification delay modelling described in
+Leonardo S Bastos, Theodoros Economou, Marcelo F C Gomes, Daniel A M Villela, Flavio C Coelho, Oswaldo G Cruz, Oliver Stoner, Trevor Bailey, and Claudia T Codeço. A modelling approach for correcting reporting delays in disease surveillance data. Statistics in Medicine, to appear. [Open access link](https://onlinelibrary.wiley.com/doi/full/10.1002/sim.8303).
 
-by Leo Bastos
+An earlier version of the manuscript is available on [arxiv](https://arxiv.org/abs/1709.09150).
+
+The version in this repository only uses temporal and delay effects, without time-deay interaction nor spatial effects.
+For the code used in the manuscript, check the dedicated repo [here](https://github.com/lsbastos/Delay).
+
+This method is currently used for arboviruses and severe acute respiratory illness (SARI) surveillance in Brazil, implemented in the corresponding platforms [InfoDengue](http://info.dengue.mat.br) and [InfoGripe](http://info.gripe.fiocruz.br).
 
 N_t - number of notified cases at time t
 
